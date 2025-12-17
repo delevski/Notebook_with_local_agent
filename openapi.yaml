@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: Or Delbsky Representative Agent API
+  description: API for the automated agent representing Or Delbsky
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+    description: Local Development Server
+
+paths:
+  /agent/chat:
+    post:
+      summary: Chat with the agent
+      description: Send a message to the agent and get a professional response
+      operationId: chatWithAgent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - message
+              properties:
+                message:
+                  type: string
+                  description: The user's question or message
+                  example: "ספר לי על הניסיון של אור"
+                context:
+                  type: string
+                  description: Optional context for the conversation
+                  example: "תהליך גיוס למשרת מפתח"
+      responses:
+        '200':
+          description: Successful response from agent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    description: The agent's response
+                  status:
+                    type: string
+                    example: "success"
+        '400':
+          description: Invalid request
+        '500':
+          description: Server error
+
+  /agent/info:
+    get:
+      summary: Get agent information
+      description: Returns configuration details about the running agent
+      operationId: getAgentInfo
+      responses:
+        '200':
+          description: Agent information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  display_name:
+                    type: string
+                  description:
+                    type: string
+                  model:
+                    type: string
+                  resources:
+                    type: array
+                    items:
+                      type: string
+
+  /health:
+    get:
+      summary: Health check
+      description: Check if the server is running
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  agent:
+                    type: string
+                  version:
+                    type: string
