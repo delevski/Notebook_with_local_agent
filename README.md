@@ -37,8 +37,8 @@ The agent is powered by Google's Gemini 2.0 Flash model, ensuring high-quality, 
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/delevski/Notebook_with_local_agent.git
-    cd Notebook_with_local_agent
+    git clone https://github.com/delevski/ADK-AGENT-TEST.git
+    cd ADK-AGENT-TEST
     ```
 
 2.  **Install dependencies:**
