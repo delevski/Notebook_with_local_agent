@@ -1,159 +1,120 @@
 # Or Delbsky Representative Agent 🤖
 
-סוכן ייצוגי חכם המייצג את אור דלבסקי מול מגייסים ומעסיקים באמצעות Google Gemini ADK.
+An intelligent, professional AI agent designed to represent Or Delbsky to recruiters and employers. Built with Google Gemini and Flask.
 
-## 📋 תיאור
+![Agent API Documentation](assets/swagger_ui.png)
 
-הסוכן פועל כנציג מקצועי של אור דלבסקי, עונה על שאלות מגייסים ומעסיקים בצורה רשמית, מנומסת ומקצועית. הסוכן משתמש במידע מקורות החיים והפרופיל המקצועי כדי לספק תשובות מדויקות ואמינות.
+## 📋 Overview
 
-## 🎯 תכונות
+This agent acts as a professional representative for Or Delbsky, autonomously answering inquiries from recruiters and HR professionals. It maintains a polite, formal, and credible tone while providing accurate information based on Or's CV and comprehensive professional profile.
 
-- ✅ מענה אוטומטי לשאלות מגייסים
-- ✅ טון מקצועי, נעים ואמין
-- ✅ גישה למידע מלא מקורות החיים והפרופיל
-- ✅ REST API endpoints לאינטגרציה קלה
-- ✅ בנוי על Google Gemini 2.0
+The agent is powered by Google's Gemini 2.0 Flash model, ensuring high-quality, context-aware responses in Hebrew.
 
-## 🚀 התקנה
+## 🌟 Key Features
 
-### 1. התקן את התלויות
+-   **Automated Professional Responses**: Handles inquiries with a consistent, respectful, and professional persona.
+-   **Context-Aware**: deeply integrated with Or's CV and Professional Profile PDF documents to provide accurate specific details.
+-   **REST API**: Fully functional Flask-based REST API for easy integration.
+-   **Swagger UI Documentation**: Interactive API documentation for easy testing and exploration.
+-   **Hebrew Language Support**: Native-level Hebrew interaction capabilities.
 
-```bash
-pip install -r requirements.txt
-```
+## 🛠️ Tech Stack
 
-### 2. הגדר את מפתח ה-API
+-   **Python 3.9+**
+-   **Flask**: Lightweight web server.
+-   **Google Gemini API (genai)**: Advanced LLM for reasoning and text generation.
+-   **Flasgger / Swagger UI**: API visualization and testing.
 
-צור קובץ `.env` בתיקייה הראשית:
+## 🚀 Getting Started
 
-```bash
-GOOGLE_API_KEY=your_api_key_here
-```
+### Prerequisites
 
-או הגדר את המשתנה סביבה:
+-   Python 3.9 or higher.
+-   A Google Cloud Project with the Gemini API enabled.
+-   An API Key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
-```bash
-export GOOGLE_API_KEY="your_api_key_here"
-```
+### Installation
 
-### 3. הפעל את השרת
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/delevski/Notebook_with_local_agent.git
+    cd Notebook_with_local_agent
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Configure Environment:**
+    Create a `.env` file in the root directory and add your Google API key:
+    ```bash
+    GOOGLE_API_KEY=your_api_key_here_xxxxx
+    ```
+    *(You can use `.env.example` as a template)*
+
+### Running the Server
+
+Start the application:
 
 ```bash
 python agent_server.py
 ```
 
-השרת יעלה על `http://localhost:5000`
+The server will start on `http://localhost:5000`.
 
-## 📡 API Endpoints
+## 📖 Usage & API Documentation
 
-### POST /agent/chat
-שיחה עם הסוכן
+Once the server is running, you can access the interactive API documentation (Swagger UI) at:
 
-**Request:**
+**[http://localhost:5000/docs](http://localhost:5000/docs)**
+
+![Chat Endpoint](assets/swagger_chat.png)
+
+### Endpoints
+
+#### `POST /agent/chat`
+Send a message to the agent.
+
+**Request Body:**
 ```json
 {
-  "message": "ספר לי על הניסיון המקצועי של אור",
-  "context": "אנחנו מחפשים מפתח פולסטאק" 
+  "message": "Tell me about Or's experience throughout the years",
+  "context": "We are looking for a Senior Full Stack Developer"
 }
 ```
 
 **Response:**
 ```json
 {
-  "response": "תשובת הסוכן...",
+  "response": "Or has over 5 years of experience...",
   "status": "success"
 }
 ```
 
-### GET /agent/info
-מידע על הסוכן
+#### `GET /agent/info`
+Retrieve information about the running agent configuration.
 
-**Response:**
-```json
-{
-  "name": "or-representative-agent",
-  "display_name": "Or Delbsky Representative Agent",
-  "description": "סוכן ייצוגי הפועל בשם אור דלבסקי...",
-  "model": "gemini-2.0-flash-exp",
-  "resources": ["קורות חיים של אור דלבסקי", "פרופיל מקצועי של אור דלבסקי"]
-}
-```
+#### `GET /health`
+Health check endpoint to verify server status.
 
-### GET /health
-בדיקת תקינות השרת
+## ⚙️ Configuration
 
-## 💡 דוגמאות שימוש
+The agent is configured via `agent_config.yaml`. You can customize:
 
-### cURL
+-   **System Instructions**: Modify the persona and guidelines.
+-   **Model**: Change the Gemini model version (e.g., `gemini-1.5-flash`).
+-   **Resources**: Add or remove reference documents (PDFs).
 
-```bash
-curl -X POST http://localhost:5000/agent/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "מה החוזקות המקצועיות של אור?",
-    "context": "תהליך גיוס למשרת Senior Developer"
-  }'
-```
+## ⚠️ Troubleshooting
 
-### Python
+**Rate Limits (`429 RESOURCE_EXHAUSTED`)**
+If you are using a free tier API key, you might encounter rate limits.
+-   **Solution**: Wait a minute for the quota to reset, or upgrade to a paid plan.
 
-```python
-import requests
+**Model Not Found (`404 NOT_FOUND`)**
+-   **Solution**: Ensure the model specified in `agent_config.yaml` is available for your API key/region.
 
-response = requests.post(
-    'http://localhost:5000/agent/chat',
-    json={
-        'message': 'ספר לי על הניסיון של אור בפיתוח',
-        'context': 'משרה בחברת הייטק'
-    }
-)
+## 📝 License
 
-print(response.json()['response'])
-```
-
-### JavaScript
-
-```javascript
-fetch('http://localhost:5000/agent/chat', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    message: 'מה הניסיון של אור?',
-    context: 'תהליך גיוס'
-  })
-})
-.then(response => response.json())
-.then(data => console.log(data.response));
-```
-
-## 📁 מבנה הפרויקט
-
-```
-ADK-Agents-test/
-├── agent_config.yaml      # הגדרות הסוכן
-├── agent_server.py        # שרת Flask
-├── requirements.txt       # תלויות Python
-├── cv (4).pdf            # קורות חיים
-├── Profile.pdf           # פרופיל מקצועי
-├── .env                  # מפתח API (לא במאגר)
-└── README.md             # מסמך זה
-```
-
-## 🔒 אבטחה
-
-- המפתח של Google API צריך להישמר ב-`.env` ולא להיות במאגר
-- השרת מריץ בפורט 5000 - ניתן לשנות בקובץ `agent_server.py`
-- בסביבת ייצור, מומלץ להוסיף authentication ו-rate limiting
-
-## 🛠️ התאמה אישית
-
-ניתן לערוך את `agent_config.yaml` כדי:
-- לשנות את ההנחיות למערכת
-- להוסיף משאבים נוספים
-- לשנות הגדרות המודל (temperature, max_tokens וכו')
-
-## 📝 רישיון
-
-פרויקט פרטי של אור דלבסקי
+Private project representing Or Delbsky.
